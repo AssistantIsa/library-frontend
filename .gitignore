@@ -55,3 +55,9 @@ yarn-error.log*
 # Temporary
 *.tmp
 temp/
+
+# Archivos temporales
+sudo
+*.swp
+*.swo
+*~
