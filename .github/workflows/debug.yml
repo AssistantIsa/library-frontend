@@ -1,0 +1,33 @@
+name: Debug
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  debug-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: List files
+        run: |
+          ls -la
+          ls -la backend/
+          ls -la backend/tests/
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install and test
+        run: |
+          cd backend
+          pip install -r requirements.txt
+          pip install pytest
+          ls -la
+          echo "PYTHONPATH is: $PYTHONPATH"
+          export PYTHONPATH=$(pwd)
+          echo "Running pytest..."
+          pytest tests/ -v || echo "Tests failed but continuing..."
