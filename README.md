@@ -9,6 +9,9 @@ Sistema completo de gestión de bibliotecas con arquitectura moderna, Kubernetes
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-green)
 ![AWS](https://img.shields.io/badge/AWS-EKS-orange)
+![CI](https://github.com/TU_USUARIO/library-k8s-aws/workflows/CI%20-%20Build%20and%20Test/badge.svg)
+![CD](https://github.com/TU_USUARIO/library-k8s-aws/workflows/CD%20-%20Deploy%20to%20AWS%20EKS/badge.svg)
+![Coverage](https://codecov.io/gh/TU_USUARIO/library-k8s-aws/branch/main/graph/badge.svg)
 
 ## 🚀 Features
 
