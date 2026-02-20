@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  btest-backend:
+  test-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
           cd backend
           pip install -r requirements.txt
           pip install pytest
-          PYTHONPATH=$(pwd) DATABASE_URL=sqlite:///:memory: pytest tests/ -vuild-backend:
+          PYTHONPATH=$(pwd) DATABASE_URL=sqlite:///:memory: pytest tests/ -v
             
     runs-on: ubuntu-latest
     needs: test-backend
