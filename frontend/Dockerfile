@@ -1,13 +1,10 @@
-# frontend/Dockerfile
 # Stage 1: Build
 FROM node:18-alpine AS build
 WORKDIR /app
 
-# Copiar archivos de dependencias
 COPY package*.json ./
 RUN npm install
 
-# Copiar el resto del código y construir
 COPY . .
 RUN npm run build
 
