@@ -1,171 +1,73 @@
-# 📚 Library Management System - Full Stack with K8s & AWS
+# Getting Started with Create React App
 
-Sistema completo de gestión de bibliotecas con arquitectura moderna, Kubernetes y AWS.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Flask](https://img.shields.io/badge/Flask-3.0-green)
-![React](https://img.shields.io/badge/React-18-blue)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
-![Docker](https://img.shields.io/badge/Docker-Compose-blue)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-green)
-![AWS](https://img.shields.io/badge/AWS-EKS-orange)
-![CI](https://github.com/TU_USUARIO/library-k8s-aws/workflows/CI%20-%20Build%20and%20Test/badge.svg)
-![CD](https://github.com/TU_USUARIO/library-k8s-aws/workflows/CD%20-%20Deploy%20to%20AWS%20EKS/badge.svg)
-![Coverage](https://codecov.io/gh/TU_USUARIO/library-k8s-aws/branch/main/graph/badge.svg)
+## Available Scripts
 
-## 🚀 Features
+In the project directory, you can run:
 
-### Backend
-- ✅ **Flask REST API** con autenticación JWT
-- ✅ **PostgreSQL** base de datos relacional
-- ✅ **Roles** (Admin, Librarian, Member)
-- ✅ **Redis** para caché
-- ✅ **Celery** para tareas asíncronas
-- ✅ **Prometheus** métricas
-- ✅ **Pytest** con 95%+ coverage
+### `npm start`
 
-### Frontend
-- ✅ **React 18** con Material-UI
-- ✅ **Nginx** en producción
-- ✅ **Role-based routing**
-- ✅ **Responsive design**
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### DevOps
-- ✅ **Docker Compose** para desarrollo
-- ✅ **Kubernetes** manifests
-- ✅ **Helm** charts
-- ✅ **GitHub Actions** CI/CD
-- ✅ **AWS EKS** deployment ready
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## 🏗️ Arquitectura
-```
-library-k8s-aws/
-├── backend/           # Flask API
-├── frontend/          # React App
-├── k8s/              # Kubernetes manifests
-├── terraform/        # Infrastructure as Code
-└── .github/          # CI/CD workflows
-```
+### `npm test`
 
-## 🚀 Quick Start
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Desarrollo Local
-```bash
-# Clonar
-git clone https://github.com/AssistantIsa/library-k8s-aws.git
-cd library-k8s-aws
+### `npm run build`
 
-# Levantar con Docker
-docker-compose up -d
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-# Backend: http://localhost:5000
-# Frontend: http://localhost:3000
-# PostgreSQL: localhost:5433
-```
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### Credenciales por defecto
-```
-Admin: admin / admin123
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## 🧪 Testing
-```bash
-# Backend tests
-docker-compose exec backend pytest tests/ -v --cov
+### `npm run eject`
 
-# Results: 15 passed, 95%+ coverage
-```
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-## 📡 API Endpoints
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### Auth
-- `POST /api/auth/register` - Registrar usuario
-- `POST /api/auth/login` - Login (devuelve JWT)
-- `GET /api/auth/me` - Usuario actual
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-### Books
-- `GET /api/books` - Listar libros (con búsqueda)
-- `POST /api/books` - Crear libro (admin/librarian)
-- `PUT /api/books/:id` - Actualizar libro
-- `DELETE /api/books/:id` - Eliminar libro
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-### Loans
-- `POST /api/loans` - Pedir prestado
-- `POST /api/loans/:id/return` - Devolver libro
-- `GET /api/loans/my-loans` - Mis préstamos
-- `GET /api/loans` - Todos los préstamos (admin)
+## Learn More
 
-## 🛠️ Stack Tecnológico
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Backend
-```
-Flask 3.0
-PostgreSQL 15
-SQLAlchemy
-JWT Extended
-Redis
-Celery
-Prometheus
-Pytest
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Frontend
-```
-React 18
-Material-UI 5
-React Router 6
-Axios
-Nginx
-```
+### Code Splitting
 
-### Infrastructure
-```
-Docker & Docker Compose
-Kubernetes (EKS)
-Terraform
-AWS (EKS, RDS, S3, CloudWatch)
-GitHub Actions
-```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-## 📊 Features Avanzadas
+### Analyzing the Bundle Size
 
-- 🔐 **JWT Authentication** con roles
-- 📈 **Métricas** con Prometheus
-- 🔄 **Tareas async** con Celery
-- 🔍 **Búsqueda avanzada** de libros
-- 💰 **Sistema de multas** automático
-- 📧 **Notificaciones** por email
-- 🎨 **Material-UI** design system
-- 🧪 **95%+ test coverage**
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-## 🚀 Deployment
+### Making a Progressive Web App
 
-### Kubernetes (Minikube)
-```bash
-kubectl apply -f k8s/
-```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### AWS EKS
-```bash
-cd terraform/
-terraform init
-terraform apply
-```
+### Advanced Configuration
 
-## 🤝 Contributing
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-Contributions welcome! Ver [CONTRIBUTING.md](CONTRIBUTING.md)
+### Deployment
 
-## 📝 License
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-MIT License - Ver [LICENSE](LICENSE)
+### `npm run build` fails to minify
 
-## 👨‍💻 Author
-
-**Tu Nombre**
-- GitHub: [@TuUsuario](https://github.com/AssistantIsa)
-- LinkedIn: [Tu Perfil](https://linkedin.com/in/juansanchezdev)
-
----
-
-⭐️ Si te gustó este proyecto, dale una estrella!
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ 
+ 
+ 
