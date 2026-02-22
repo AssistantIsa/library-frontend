@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: library_user
       POSTGRES_PASSWORD: library_pass
     ports:
-      - "5433:5432"
+      - "5433:5432"  # Mapeado a 5433 en host para evitar conflictos
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -32,16 +32,18 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DATABASE_URL: postgresql://library_user:library_pass@postgres:5432/library_db
-      REDIS_URL: redis://redis:6379/0
-      JWT_SECRET_KEY: your-secret-key-change-in-production
+      - PORT=5000
+      - DATABASE_URL=postgresql://library_user:library_pass@postgres:5432/library_db
+      - JWT_SECRET_KEY=super-secret-key
+      - REDIS_URL=redis://redis:6379/0
+      - FLASK_ENV=development  # o production
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
     volumes:
-      - ./backend:/app
+      - ./backend:/app  # solo para desarrollo, comenta en producción
     networks:
       - library-network
 
@@ -49,7 +51,9 @@ services:
     build: ./frontend
     container_name: library-frontend
     ports:
-      - "3000:80"
+      - "3000:80"  # Sirve en puerto 3000 del host
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api  # Para desarrollo local
     depends_on:
       - backend
     networks:

@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/common/Navbar';
+import ProtectedRoute from './components/common/ProtectedRoute';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import BookList from './components/books/BookList';
+import MyLoans from './components/loans/MyLoans';
+import ManageBooks from './components/books/ManageBooks';
+
+const theme = createTheme({ palette: { primary: { main: '#1976d2' } } });
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<ProtectedRoute><BookList /></ProtectedRoute>} />
+            <Route path="/books" element={<ProtectedRoute><BookList /></ProtectedRoute>} />
+            <Route path="/my-loans" element={<ProtectedRoute><MyLoans /></ProtectedRoute>} />
+            <Route path="/manage-books" element={<ProtectedRoute allowedRoles={['admin', 'librarian']}><ManageBooks /></ProtectedRoute>} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
