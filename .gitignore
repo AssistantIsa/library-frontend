@@ -8,6 +8,10 @@ venv/
 env/
 backend/venv/
 
+blockdenotas.txt
+chat.md
+
+
 # Testing
 .pytest_cache/
 .coverage
