@@ -1,12 +1,4 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-venv/
-env/
-backend/venv/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 blockdenotas.txt
 chat.md
@@ -18,50 +10,24 @@ chat.md
 htmlcov/
 *.cover
 
-# Flask
-instance/
-.webassets-cache
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# SQLite
-*.db
-*.sqlite3
+# testing
+/coverage
 
-# Docker
-postgres_data/
+# production
+/build
 
-# Environment
-.env
-*.env
-!.env.example
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
+# misc
 .DS_Store
-Thumbs.db
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Node
-frontend/node_modules/
-frontend/build/
-frontend/.pnp
-frontend/.pnp.js
-
-# Logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Temporary
-*.tmp
-temp/
-
-# Archivos temporales
-sudo
-*.swp
-*.swo
-*~
