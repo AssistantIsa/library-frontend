@@ -3,6 +3,9 @@ import { Container, Grid, Card, CardContent, CardActions, Typography, Button, Te
 import SearchIcon from '@mui/icons-material/Search';
 import { booksAPI, loansAPI } from '../../services/api';
 import { getUserRole } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
+import { CardActionArea } from '@mui/material';
+
 
 const BookList = () => {
   const [books, setBooks] = useState([]);
@@ -11,21 +14,29 @@ const BookList = () => {
   const [search, setSearch] = useState('');
   const [message, setMessage] = useState('');
   const role = getUserRole();
-
+  const navigate = useNavigate();
   useEffect(() => { fetchBooks(); }, [search]);
-
-  const fetchBooks = async () => {
+  
+  const fetchBooks = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await booksAPI.getAll({ search });
-      setBooks(res.data.books);
+      const params = { search };
+      if (language) params.language = language;
+      
+      const response = await booksAPI.getAll(params);
+      setBooks(response.data.books);
     } catch (err) {
       setError('Error loading books');
     } finally {
       setLoading(false);
     }
-  };
-
+  }, [search, language]);
+  
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
+  
+  
   const handleBorrow = async (bookId) => {
     try {
       await loansAPI.create({ book_id: bookId });
@@ -49,25 +60,31 @@ const BookList = () => {
         <Grid container spacing={3}>
           {books.map(book => (
             <Grid item xs={12} sm={6} md={4} key={book.id}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" noWrap>{book.title}</Typography>
-                  <Typography color="text.secondary">{book.author}</Typography>
-                  <Typography variant="body2">ISBN: {book.isbn}</Typography>
-                  {book.publisher && <Typography variant="body2">Publisher: {book.publisher}</Typography>}
-                  <Box mt={1}>
-                    <Chip label={`${book.available_copies}/${book.total_copies} available`} color={book.available_copies > 0 ? 'success' : 'error'} size="small" />
-                  </Box>
-                </CardContent>
-                {role === 'member' && (
-                  <CardActions>
-                    <Button size="small" variant="contained" disabled={book.available_copies === 0} onClick={() => handleBorrow(book.id)} fullWidth>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardActionArea onClick={() => navigate(`/books/${book.id}`)}>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    {/* contenido existente */}
+                  </CardContent>
+                </CardActionArea>
+                
+                <CardActions>
+                  {role === 'member' && (
+                    <Button
+                      size="small"
+                      variant="contained"
+                      disabled={book.available_copies === 0}
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        handleBorrow(book.id); 
+                      }}
+                      fullWidth
+                    >
                       {book.available_copies > 0 ? 'Borrow' : 'Not Available'}
                     </Button>
-                  </CardActions>
-                )}
+                  )}
+                </CardActions>
               </Card>
-            </Grid>
+	    </Grid>
           ))}
           {books.length === 0 && <Grid item xs={12}><Alert severity="info">No books found</Alert></Grid>}
         </Grid>

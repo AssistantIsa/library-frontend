@@ -9,6 +9,7 @@ import Register from './components/auth/Register';
 import BookList from './components/books/BookList';
 import MyLoans from './components/loans/MyLoans';
 import ManageBooks from './components/books/ManageBooks';
+import BookDetail from './components/books/BookDetail';
 
 const theme = createTheme({ palette: { primary: { main: '#1976d2' } } });
 
@@ -24,7 +25,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<ProtectedRoute><BookList /></ProtectedRoute>} />
             <Route path="/books" element={<ProtectedRoute><BookList /></ProtectedRoute>} />
-            <Route path="/my-loans" element={<ProtectedRoute><MyLoans /></ProtectedRoute>} />
+            <Route path="/books/:id" element={<ProtectedRoute><BookDetail /></ProtectedRoute>} />            
+	    <Route path="/my-loans" element={<ProtectedRoute><MyLoans /></ProtectedRoute>} />
             <Route path="/manage-books" element={<ProtectedRoute allowedRoles={['admin', 'librarian']}><ManageBooks /></ProtectedRoute>} />
           </Routes>
         </BrowserRouter>
