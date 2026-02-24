@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Grid, Card, CardContent, CardActions, Typography, Button, TextField, Box, Chip, CircularProgress, Alert, InputAdornment } from '@mui/material';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Container, Grid, Card, CardContent, CardActions, Typography, Button, TextField, Box, Chip, CircularProgress, Alert, InputAdornment, MenuItem } from '@mui/material'; 
 import SearchIcon from '@mui/icons-material/Search';
 import { booksAPI, loansAPI } from '../../services/api';
 import { getUserRole } from '../../utils/auth';
@@ -12,6 +12,7 @@ const BookList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
+  const [language, setLanguage] = useState('');
   const [message, setMessage] = useState('');
   const role = getUserRole();
   const navigate = useNavigate();
@@ -53,8 +54,15 @@ const BookList = () => {
     <Container maxWidth="lg" sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>📚 Library Catalog</Typography>
       {message && <Alert severity={message.includes('✅') ? 'success' : 'error'} sx={{ mb: 2 }}>{message}</Alert>}
-      <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 3, display:'flex', gap:2 }}>
         <TextField fullWidth placeholder="Search by title, author or ISBN..." value={search} onChange={(e) => setSearch(e.target.value)} InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment> }} />
+	<TextField select label="Language" value={language} onChange={(e) => setLanguage(e.target.value)} sx={{ minWidth: 120 }}>
+	  <MenuItem value="">All</MenuItem>
+          <MenuItem value="eng">English</MenuItem>
+          <MenuItem value="spa">Spanish</MenuItem>
+          <MenuItem value="ger">German</MenuItem>
+          <MenuItem value="fre">French</MenuItem>
+        </TextField>  
       </Box>
       {loading ? <CircularProgress /> : error ? <Alert severity="error">{error}</Alert> : (
         <Grid container spacing={3}>
