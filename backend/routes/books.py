@@ -12,8 +12,9 @@ books_bp = Blueprint('books', __name__)
 def get_books():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
+    limit = request.args.get('limit', per_page, type=int)  # Aceptar 'limit' también
     search = request.args.get('search', '')
-    category_id = request.args.get('category_id', type=int)
+    language = request.args.get('language', '')
     
     query = Book.query
     
@@ -24,16 +25,19 @@ def get_books():
             (Book.isbn.ilike(f'%{search}%'))
         )
     
-    if category_id:
-        query = query.filter_by(category_id=category_id)
+    if language:
+        query = query.filter_by(language=language)
     
-    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+    # Paginación
+    pagination = query.paginate(page=page, per_page=limit, error_out=False)
     
     return jsonify({
         'books': [book.to_dict() for book in pagination.items],
         'total': pagination.total,
         'pages': pagination.pages,
-        'current_page': page
+        'totalPages': pagination.pages,  # ← IMPORTANTE: Agregar esto
+        'current_page': page,
+        'per_page': limit
     }), 200
 
 @books_bp.route('/<int:book_id>', methods=['GET'])
