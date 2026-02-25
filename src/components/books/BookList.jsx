@@ -28,7 +28,7 @@ const BookList = () => {
       // Asumimos que la API acepta page, limit, search y language
       const res = await booksAPI.getAll({ page, limit: 12, search, language });
       setBooks(res.data.books);
-      setTotalPages(res.data.totalPages || 1);
+      setTotalPages(res.data.pages || res.data.totalPages || 1);
     } catch (err) {
       setError('Error loading books');
     } finally {
@@ -147,7 +147,6 @@ const BookList = () => {
               </Grid>
             ))}
           </Grid>
-
           {/* Paginación */}
           {totalPages > 1 && (
             <Box display="flex" justifyContent="center" mt={4}>
