@@ -1,48 +1,51 @@
+// src/components/books/BookList.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Grid, Card, CardContent, CardActions, Typography, Button, TextField, Box, Chip, CircularProgress, Alert, InputAdornment, MenuItem } from '@mui/material'; 
+import { useNavigate } from 'react-router-dom';
+import {
+  Container, Grid, Card, CardContent, CardActions, CardActionArea,
+  Typography, Button, TextField, Box, Chip, CircularProgress,
+  Alert, InputAdornment, MenuItem, Pagination
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { booksAPI, loansAPI } from '../../services/api';
 import { getUserRole } from '../../utils/auth';
-import { useNavigate } from 'react-router-dom';
-import { CardActionArea } from '@mui/material';
-
 
 const BookList = () => {
+  const navigate = useNavigate();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [language, setLanguage] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [message, setMessage] = useState('');
   const role = getUserRole();
-  const navigate = useNavigate();
-  useEffect(() => { fetchBooks(); }, [search]);
-  
+
   const fetchBooks = useCallback(async () => {
     try {
       setLoading(true);
-      const params = { search };
-      if (language) params.language = language;
-      
-      const response = await booksAPI.getAll(params);
-      setBooks(response.data.books);
+      // Asumimos que la API acepta page, limit, search y language
+      const res = await booksAPI.getAll({ page, limit: 12, search, language });
+      setBooks(res.data.books);
+      setTotalPages(res.data.totalPages || 1);
     } catch (err) {
       setError('Error loading books');
     } finally {
       setLoading(false);
     }
-  }, [search, language]);
-  
+  }, [page, search, language]);
+
   useEffect(() => {
     fetchBooks();
   }, [fetchBooks]);
-  
-  
-  const handleBorrow = async (bookId) => {
+
+  const handleBorrow = async (bookId, e) => {
+    e.stopPropagation(); // Evita navegar al detalle
     try {
       await loansAPI.create({ book_id: bookId });
       setMessage('✅ Book borrowed!');
-      fetchBooks();
+      fetchBooks(); // Refresca para actualizar disponibilidad
       setTimeout(() => setMessage(''), 3000);
     } catch (err) {
       setMessage(`❌ ${err.response?.data?.message || 'Error'}`);
@@ -50,52 +53,119 @@ const BookList = () => {
     }
   };
 
+  const handlePageChange = (event, value) => {
+    setPage(value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>📚 Library Catalog</Typography>
-      {message && <Alert severity={message.includes('✅') ? 'success' : 'error'} sx={{ mb: 2 }}>{message}</Alert>}
-      <Box sx={{ mb: 3, display:'flex', gap:2 }}>
-        <TextField fullWidth placeholder="Search by title, author or ISBN..." value={search} onChange={(e) => setSearch(e.target.value)} InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment> }} />
-	<TextField select label="Language" value={language} onChange={(e) => setLanguage(e.target.value)} sx={{ minWidth: 120 }}>
-	  <MenuItem value="">All</MenuItem>
+
+      {message && (
+        <Alert severity={message.includes('✅') ? 'success' : 'error'} sx={{ mb: 2 }}>
+          {message}
+        </Alert>
+      )}
+
+      {/* Filtros: Búsqueda e Idioma */}
+      <Box sx={{ mb: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+        <TextField
+          fullWidth
+          placeholder="Search by title, author or ISBN..."
+          value={search}
+          onChange={(e) => { setPage(1); setSearch(e.target.value); }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>
+          }}
+          sx={{ flex: 2, minWidth: 250 }}
+        />
+        <TextField
+          select
+          label="Language"
+          value={language}
+          onChange={(e) => { setPage(1); setLanguage(e.target.value); }}
+          sx={{ minWidth: 150 }}
+        >
+          <MenuItem value="">All</MenuItem>
           <MenuItem value="eng">English</MenuItem>
           <MenuItem value="spa">Spanish</MenuItem>
           <MenuItem value="ger">German</MenuItem>
-          <MenuItem value="fre">French</MenuItem>
-        </TextField>  
+          <MenuItem value="tur">Turkish</MenuItem>
+          <MenuItem value="ara">Arabic</MenuItem>
+        </TextField>
       </Box>
-      {loading ? <CircularProgress /> : error ? <Alert severity="error">{error}</Alert> : (
-        <Grid container spacing={3}>
-          {books.map(book => (
-            <Grid item xs={12} sm={6} md={4} key={book.id}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardActionArea onClick={() => navigate(`/books/${book.id}`)}>
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    {/* contenido existente */}
-                  </CardContent>
-                </CardActionArea>
-                
-                <CardActions>
+
+      {loading ? (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : (
+        <>
+          <Grid container spacing={3}>
+            {books.map(book => (
+              <Grid item xs={12} sm={6} md={4} key={book.id}>
+                <Card>
+                  <CardActionArea onClick={() => navigate(`/books/${book.id}`)}>
+                    <CardContent>
+                      <Typography variant="h6" noWrap>{book.title}</Typography>
+                      <Typography color="text.secondary" gutterBottom>
+                        {book.author}
+                      </Typography>
+                      <Typography variant="body2">ISBN: {book.isbn}</Typography>
+                      {book.publisher && (
+                        <Typography variant="body2" color="text.secondary">
+                          Publisher: {book.publisher}
+                        </Typography>
+                      )}
+                      <Box sx={{ mt: 1 }}>
+                        <Chip
+                          label={`${book.available_copies}/${book.total_copies} available`}
+                          color={book.available_copies > 0 ? 'success' : 'error'}
+                          size="small"
+                        />
+                      </Box>
+                    </CardContent>
+                  </CardActionArea>
                   {role === 'member' && (
-                    <Button
-                      size="small"
-                      variant="contained"
-                      disabled={book.available_copies === 0}
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        handleBorrow(book.id); 
-                      }}
-                      fullWidth
-                    >
-                      {book.available_copies > 0 ? 'Borrow' : 'Not Available'}
-                    </Button>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        disabled={book.available_copies === 0}
+                        onClick={(e) => handleBorrow(book.id, e)}
+                        fullWidth
+                      >
+                        {book.available_copies > 0 ? 'Borrow' : 'Not Available'}
+                      </Button>
+                    </CardActions>
                   )}
-                </CardActions>
-              </Card>
-	    </Grid>
-          ))}
-          {books.length === 0 && <Grid item xs={12}><Alert severity="info">No books found</Alert></Grid>}
-        </Grid>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Paginación */}
+          {totalPages > 1 && (
+            <Box display="flex" justifyContent="center" mt={4}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                color="primary"
+                size="large"
+                showFirstButton
+                showLastButton
+              />
+            </Box>
+          )}
+
+          {books.length === 0 && (
+            <Alert severity="info">No books found</Alert>
+          )}
+        </>
       )}
     </Container>
   );
