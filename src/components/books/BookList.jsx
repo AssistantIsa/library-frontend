@@ -87,12 +87,13 @@ const BookList = () => {
           onChange={(e) => { setPage(1); setLanguage(e.target.value); }}
           sx={{ minWidth: 150 }}
         >
-          <MenuItem value="">All</MenuItem>
-          <MenuItem value="eng">English</MenuItem>
-          <MenuItem value="spa">Spanish</MenuItem>
-          <MenuItem value="ger">German</MenuItem>
-          <MenuItem value="tur">Turkish</MenuItem>
-          <MenuItem value="ara">Arabic</MenuItem>
+	  <MenuItem value="">All Languages</MenuItem>
+          <MenuItem value="en">🇬🇧 English ({2223})</MenuItem>
+          <MenuItem value="es">🇪🇸 Español ({14295})</MenuItem>
+          <MenuItem value="fr">🇫🇷 Français ({10129})</MenuItem>
+          <MenuItem value="de">🇩🇪 Deutsch ({12412})</MenuItem>
+          <MenuItem value="it">🇮🇹 Italiano ({12616})</MenuItem>
+          <MenuItem value="pt">🇵🇹 Português ({894})</MenuItem>
         </TextField>
       </Box>
 
