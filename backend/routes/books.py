@@ -40,37 +40,57 @@ def get_books():
         'per_page': limit
     }), 200
 
-@books_bp.route('/<int:book_id>', methods=['GET'])
-def get_book(book_id):
-    book = Book.query.get_or_404(book_id)
-    return jsonify(book.to_dict()), 200
-
-@books_bp.route('', methods=['POST'])
-@jwt_required()
-@role_required(['admin', 'librarian'])
-def create_book():
-    data = request.get_json()
-    
-    if Book.query.filter_by(isbn=data['isbn']).first():
-        return jsonify({'message': 'ISBN already exists'}), 409
-    
-    book = Book(
-        isbn=data['isbn'],
-        title=data['title'],
-        author=data['author'],
-        publisher=data.get('publisher'),
-        publication_year=data.get('publication_year'),
-        category_id=data.get('category_id'),
-        total_copies=data.get('total_copies', 1),
-        available_copies=data.get('total_copies', 1),
-        description=data.get('description'),
-        cover_image_url=data.get('cover_image_url')
-    )
-    
-    db.session.add(book)
-    db.session.commit()
-    
-    return jsonify(book.to_dict()), 201
+@books_bp.route('', methods=['GET'])
+def get_books():
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 20, type=int)
+        limit = request.args.get('limit', per_page, type=int)
+        search = request.args.get('search', '', type=str)
+        language = request.args.get('language', '', type=str)
+        
+        # Validar límite máximo
+        if limit > 100:
+            limit = 100
+        
+        query = Book.query
+        
+        # Filtro de búsqueda
+        if search:
+            search_filter = f'%{search}%'
+            query = query.filter(
+                db.or_(
+                    Book.title.ilike(search_filter),
+                    Book.author.ilike(search_filter),
+                    Book.isbn.ilike(search_filter)
+                )
+            )
+        
+        # Filtro de idioma
+        if language:
+            query = query.filter(Book.language == language)
+        
+        # Ejecutar paginación
+        pagination = query.paginate(
+            page=page,
+            per_page=limit,
+            error_out=False
+        )
+        
+        return jsonify({
+            'books': [book.to_dict() for book in pagination.items],
+            'total': pagination.total,
+            'pages': pagination.pages,
+            'totalPages': pagination.pages,  # Para compatibilidad
+            'current_page': page,
+            'per_page': limit,
+            'has_next': pagination.has_next,
+            'has_prev': pagination.has_prev
+        }), 200
+        
+    except Exception as e:
+        print(f"Error in get_books: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
 
 @books_bp.route('/<int:book_id>', methods=['PUT'])
 @jwt_required()
