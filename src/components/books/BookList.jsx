@@ -21,21 +21,29 @@ const BookList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [message, setMessage] = useState('');
   const role = getUserRole();
-
+  
   const fetchBooks = useCallback(async () => {
     try {
       setLoading(true);
-      // Asumimos que la API acepta page, limit, search y language
-      const res = await booksAPI.getAll({ page, limit: 12, search, language });
-      setBooks(res.data.books);
-      setTotalPages(res.data.pages || res.data.totalPages || 1);
+      const params = { page, limit: 12, search };
+      
+      // CRÍTICO: Solo agregar language si tiene valor
+      if (language) {
+        params.language = language;
+      }
+      
+      console.log('Fetching with params:', params); // Debug
+      
+      const res = await booksAPI.getAll(params);
+      setBooks(res.data.books || []);
+      setTotalPages(res.data.pages || 1);
     } catch (err) {
       setError('Error loading books');
     } finally {
       setLoading(false);
     }
   }, [page, search, language]);
-
+  
   useEffect(() => {
     fetchBooks();
   }, [fetchBooks]);
