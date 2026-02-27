@@ -374,9 +374,25 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## 📺 Sígueme
 
-- **YouTube:** [Ver más proyectos](https://www.youtube.com/watch?v=0HMX8B7Q3C4)
+- **YouTube Video:** [Ver más proyectos](https://www.youtube.com/watch?v=0HMX8B7Q3C4)
 - **LinkedIn:** [@juansanchezdev]
 - **Email:** usanaconisa@gmail.com
 
 ---
- 
+## ☕ Support This Project
+
+If this project helped you or your organization, consider supporting its development:
+
+<a href="https://www.buymeacoffee.com/usanaconisa" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+</a>
+
+Your support helps:
+- ✅ Keep the demo running
+- ✅ Add new features
+- ✅ Maintain documentation
+- ✅ Fix bugs faster
+
+[☕ Buy Me a Coffee](https://buymeacoffee.com/usanaconisa) | [📧 Request Services](https://forms.gle/vdLymrQoFkLfmrGW7)
+
+--- 
