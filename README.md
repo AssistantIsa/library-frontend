@@ -5,6 +5,12 @@
 [![Live Demo](https://img.shields.io/badge/demo-live-success)](https://library-frontend-app.onrender.com)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+## 🎥 Video Demo
+
+[![Library System Demo](https://img.youtube.com/vi/0HMX8B7Q3C4/maxresdefault.jpg)](https://www.youtube.com/watch?v=0HMX8B7Q3C4)
+
+**[▶️ Ver demo completa en YouTube](https://www.youtube.com/watch?v=0HMX8B7Q3C4)**
+
 > Sistema completo de gestión de bibliotecas con Flask, React, PostgreSQL y Kubernetes
 
 ## 🌐 Demo en Vivo
@@ -342,5 +348,35 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
  
- 
+ ## 💼 Servicios Profesionales
+
+¿Necesitas implementar este sistema en tu organización?
+
+### Ofrezco:
+
+- **🚀 Implementación Completa** - Deploy en tus servidores (AWS/GCP/Azure/local)
+- **🎨 Personalización** - Branding, features específicas, integraciones
+- **📚 Capacitación** - Entrenamiento para tu equipo
+- **🔧 Soporte** - Mantenimiento y actualizaciones
+
+**Contacto:** usanaconisa@gmail.com
+
+---
+
+## 🌟 ¿Te gustó el proyecto?
+
+- ⭐ Dale una estrella en GitHub
+- 🍴 Haz un fork y contribuye
+- 📢 Comparte con tu red
+- 📧 Contáctame para colaboraciones
+
+---
+
+## 📺 Sígueme
+
+- **YouTube:** [Ver más proyectos](https://www.youtube.com/watch?v=0HMX8B7Q3C4)
+- **LinkedIn:** [@juansanchezdev]
+- **Email:** usanaconisa@gmail.com
+
+---
  
